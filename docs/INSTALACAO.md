@@ -7,8 +7,8 @@
 
 ## 1. Clonar repositório
 ```bash
-git clone https://github.com/devdiogofalves/Lead-Prospector-Pro---DIOGO.git
-cd Lead-Prospector-Pro---DIOGO
+git clone https://github.com/devdiogofalves/instalador_leadprospect.git
+cd instalador_leadprospect
 ```
 
 ## 2. Configurar Supabase Self-Hosted
