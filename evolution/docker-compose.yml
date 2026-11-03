@@ -1,0 +1,18 @@
+services:
+  evolution-api:
+    container_name: evolution-api
+    image: evoapicloud/evolution-api:latest
+    restart: always
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    networks:
+      - supabase_default
+    volumes:
+      - evolution_instances:/evolution/instances
+volumes:
+  evolution_instances:
+networks:
+  supabase_default:
+    external: true
