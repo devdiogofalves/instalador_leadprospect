@@ -45,7 +45,7 @@ systemctl start docker
 log "=== 2. Clonando repositório ==="
 INSTALL_DIR="/opt/leadsbooster-install"
 rm -rf "$INSTALL_DIR"
-git clone https://github.com/devdiogofalves/Lead-Prospector-Pro---DIOGO.git "$INSTALL_DIR"
+git clone https://github.com/devdiogofalves/instalador_leadprospect.git "$INSTALL_DIR"
 cd "$INSTALL_DIR"
 
 # ============================================================================
