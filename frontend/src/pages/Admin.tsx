@@ -15,7 +15,7 @@ import { toast } from "@/hooks/use-toast";
 import { Label } from "@/components/ui/label";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Switch } from "@/components/ui/switch";
-import { Loader2, Users, Rocket, MessageSquare, DollarSign, ShieldCheck, Pause, Play, Settings, RefreshCw, Search, Crown, Plus, Mail, Building2, Bot, Lock, Send, Pencil, Trash2, KeyRound, Phone, MessageCircle, Zap, Check, X, CreditCard, LifeBuoy, LogIn } from "lucide-react";
+import { Loader2, Users, Rocket, MessageSquare, DollarSign, ShieldCheck, Pause, Play, Settings, RefreshCw, Search, Crown, Plus, Mail, Building2, Bot, Lock, Send, Pencil, Trash2, KeyRound, Phone, MessageCircle, Zap, Check, X, CreditCard, LifeBuoy, LogIn, Eye, EyeOff } from "lucide-react";
 import { FinanceiroTab } from "@/components/admin/FinanceiroTab";
 import { SuporteAdminTab } from "@/components/admin/SuporteAdminTab";
 import { UnipileAccountsTab } from "@/components/admin/UnipileAccountsTab";
@@ -179,8 +179,90 @@ export default function Admin() {
   const [noteText, setNoteText] = useState("");
   const [actionLoading, setActionLoading] = useState(false);
 
-  // Editar cliente
+  const openMenuPerms = async (client: any) => {
+    setMenuPermsClient(client);
+    setMenuPermsLoading(true);
+    setMenuPermsOpen(true);
+    // Load existing permissions
+    const { data } = await (supabase as any)
+      .from("user_menu_permissions")
+      .select("menu_key, enabled")
+      .eq("user_id", client.id);
+    const perms: Record<string, boolean> = {};
+    (data ?? []).forEach((p: any) => { perms[p.menu_key] = p.enabled; });
+    setMenuPerms(perms);
+    setMenuPermsLoading(false);
+  };
+
+  const saveMenuPerms = async () => {
+    if (!menuPermsClient) return;
+    setMenuPermsLoading(true);
+    try {
+      // Delete existing
+      await (supabase as any).from("user_menu_permissions").delete().eq("user_id", menuPermsClient.id);
+      // Insert new
+      const rows = Object.entries(menuPerms).map(([key, enabled]) => ({
+        user_id: menuPermsClient.id,
+        menu_key: key,
+        enabled,
+      }));
+      if (rows.length > 0) {
+        await (supabase as any).from("user_menu_permissions").insert(rows);
+      }
+      toast({ title: "Permissões salvas!" });
+      setMenuPermsOpen(false);
+    } catch (e: any) {
+      toast({ title: "Erro", description: e.message, variant: "destructive" });
+    } finally {
+      setMenuPermsLoading(false);
+    }
+  };
+
+  const ALL_MENU_ITEMS = [
+    { key: "section_inicio", label: "── Seção: Início ──" },
+    { key: "comece_aqui", label: "Comece Aqui" },
+    { key: "dashboard", label: "Dashboard" },
+    { key: "section_prospeccao", label: "── Seção: Prospecção ──" },
+    { key: "google_maps", label: "Google Maps" },
+    { key: "instagram", label: "Instagram" },
+    { key: "grupos_whatsapp", label: "Grupos WhatsApp" },
+    { key: "consulta_cnpj", label: "Consulta CNPJ" },
+    { key: "dadosbooster", label: "DadosBooster" },
+    { key: "meus_leads", label: "Meus Leads" },
+    { key: "leads_enriquecidos", label: "Leads Enriquecidos" },
+    { key: "prospeccao_automatica", label: "Prospecção Automática" },
+    { key: "section_whatsapp", label: "── Seção: WhatsApp ──" },
+    { key: "disparo_booster", label: "DisparoBooster" },
+    { key: "disparo_humanizado", label: "Disparo Humanizado" },
+    { key: "inbox_unificado", label: "Inbox Unificado" },
+    { key: "follow_ups", label: "Follow-ups" },
+    { key: "section_canais", label: "── Seção: Canais ──" },
+    { key: "disparo_email", label: "Disparo por E-mail" },
+    { key: "instagram_dm", label: "Instagram DM" },
+    { key: "telegram", label: "Telegram" },
+    { key: "postagem", label: "Postagem" },
+    { key: "section_linkedin", label: "── Seção: LinkedIn ──" },
+    { key: "linkedin_buscar", label: "Buscar Leads LinkedIn" },
+    { key: "linkedin_dm", label: "LinkedIn DM" },
+    { key: "section_mavi", label: "── Seção: MAVI ──" },
+    { key: "treinar_ia", label: "Treinar IA" },
+    { key: "prompt_preview", label: "Prompt Preview" },
+    { key: "pipeline_crm", label: "Pipeline CRM" },
+    { key: "section_integracoes", label: "── Seção: Integrações ──" },
+    { key: "canais", label: "Canais" },
+    { key: "whatsapp", label: "WhatsApp" },
+    { key: "google_calendar", label: "Google Calendar" },
+    { key: "apis", label: "APIs" },
+    { key: "section_conta", label: "── Seção: Conta ──" },
+    { key: "identidade_empresa", label: "Identidade da Empresa" },
+    { key: "metricas", label: "Métricas" },
+    { key: "saude_sistema", label: "Saúde do Sistema" },
+  ];
   const [editOpen, setEditOpen] = useState(false);
+  const [menuPermsOpen, setMenuPermsOpen] = useState(false);
+  const [menuPermsClient, setMenuPermsClient] = useState<any>(null);
+  const [menuPerms, setMenuPerms] = useState<Record<string, boolean>>({});
+  const [menuPermsLoading, setMenuPermsLoading] = useState(false);
   const [editClient, setEditClient] = useState<any>(null);
   const [editCompany, setEditCompany] = useState("");
   const [editAgent, setEditAgent] = useState("");
@@ -432,6 +514,9 @@ export default function Admin() {
                               </Button>
                               <Button size="sm" variant="ghost" className="h-7 px-2 text-xs" title="Editar dados" onClick={() => { setEditClient(c); setEditCompany(c.company_name ?? ""); setEditAgent(c.agent_name ?? ""); setEditOpen(true); }}>
                                 <Pencil className="h-3 w-3" />
+                              </Button>
+                              <Button size="sm" variant="ghost" className="h-7 px-2 text-xs text-purple-400 hover:text-purple-300" title="Permissões de menu" onClick={() => openMenuPerms(c)}>
+                                <Eye className="h-3 w-3" />
                               </Button>
                               <Button
                                 size="sm" variant="ghost" className="h-7 px-2 text-xs text-blue-400 hover:text-blue-300"
@@ -876,6 +961,42 @@ export default function Admin() {
               Enviar WhatsApp
             </Button>
           </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Modal: permissões de menu */}
+      <Dialog open={menuPermsOpen} onOpenChange={(o) => { if (!o) { setMenuPermsOpen(false); setMenuPermsClient(null); } }}>
+        <DialogContent className="max-w-md max-h-[80vh] flex flex-col p-0 gap-0">
+          <DialogHeader className="px-6 pt-6 pb-4 border-b shrink-0">
+            <DialogTitle className="flex items-center gap-2">
+              <Eye className="h-5 w-5" /> Permissões de Menu — {menuPermsClient?.email}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-2 px-6 py-4 overflow-y-auto flex-1">
+            {menuPermsLoading ? (
+              <div className="flex justify-center py-8"><Loader2 className="h-6 w-6 animate-spin" /></div>
+            ) : (
+              ALL_MENU_ITEMS.map((item) => {
+                const enabled = menuPerms[item.key] !== false; // default true
+                return (
+                  <div key={item.key} className="flex items-center justify-between py-1.5 border-b border-border/30 last:border-0">
+                    <span className="text-sm">{item.label}</span>
+                    <Switch
+                      checked={enabled}
+                      onCheckedChange={(v) => setMenuPerms((prev) => ({ ...prev, [item.key]: v }))}
+                    />
+                  </div>
+                );
+              })
+            )}
+          </div>
+          <div className="px-6 py-4 border-t shrink-0 flex justify-end gap-2">
+            <Button variant="outline" onClick={() => { setMenuPermsOpen(false); setMenuPermsClient(null); }}>Cancelar</Button>
+            <Button onClick={saveMenuPerms} disabled={menuPermsLoading}>
+              {menuPermsLoading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
+              Salvar
+            </Button>
+          </div>
         </DialogContent>
       </Dialog>
 

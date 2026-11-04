@@ -135,8 +135,67 @@ export function AppSidebar() {
   const isActive = (path: string) =>
     path === "/" ? location.pathname === "/" : location.pathname.startsWith(path);
 
+  const { data: menuPerms } = useQuery({
+    queryKey: ["menu_perms", user?.id],
+    queryFn: async () => {
+      const { data } = await (supabase as any)
+        .from("user_menu_permissions")
+        .select("menu_key, enabled")
+        .eq("user_id", user!.id);
+      return data ?? [];
+    },
+    enabled: !!user && !isAdmin,
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const isMenuEnabled = (key: string) => {
+    if (isAdmin) return true; // Admin sees everything
+    if (!menuPerms || menuPerms.length === 0) return true; // Default: show all
+    const perm = menuPerms.find((p: any) => p.menu_key === key);
+    return perm ? perm.enabled : true; // Default true if not specified
+  };
+
+  const isSectionEnabled = (key: string) => isMenuEnabled(key);
+
+  // Map menu titles to keys
+  const titleToKey: Record<string, string> = {
+    "Comece Aqui": "comece_aqui",
+    "Dashboard": "dashboard",
+    "Google Maps": "google_maps",
+    "Instagram": "instagram",
+    "Grupos WhatsApp": "grupos_whatsapp",
+    "Consulta CNPJ": "consulta_cnpj",
+    "DadosBooster": "dadosbooster",
+    "Meus Leads": "meus_leads",
+    "Leads Enriquecidos": "leads_enriquecidos",
+    "Prospecção Automática": "prospeccao_automatica",
+    "DisparoBooster (Campanhas)": "disparo_booster",
+    "Disparo Humanizado": "disparo_humanizado",
+    "📥 Inbox Unificado": "inbox_unificado",
+    "Follow-ups": "follow_ups",
+    "Disparo por E-mail": "disparo_email",
+    "Instagram DM": "instagram_dm",
+    "Telegram": "telegram",
+    "Postagem": "postagem",
+    "Buscar Leads LinkedIn": "linkedin_buscar",
+    "LinkedIn DM": "linkedin_dm",
+    "Treinar IA": "treinar_ia",
+    "🔍 Prompt Preview": "prompt_preview",
+    "Pipeline CRM": "pipeline_crm",
+    "Canais (LinkedIn/Email/IG/TG)": "canais",
+    "WhatsApp": "whatsapp",
+    "Google Calendar": "google_calendar",
+    "APIs": "apis",
+    "Identidade da Empresa": "identidade_empresa",
+    "Métricas": "metricas",
+    "Saúde do Sistema": "saude_sistema",
+  };
+
+  const filterItems = (items: typeof prospecaoItems) =>
+    items.filter((item) => isMenuEnabled(titleToKey[item.title] ?? item.title.toLowerCase().replace(/ /g, "_")));
+
   const renderItems = (items: typeof prospecaoItems) =>
-    items.map((item) => (
+    filterItems(items).map((item) => (
       <SidebarMenuItem key={item.title}>
         <SidebarMenuButton asChild isActive={isActive(item.url)} tooltip={item.title}>
           <NavLink
@@ -180,54 +239,68 @@ export function AppSidebar() {
       </SidebarHeader>
 
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>Início</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>{renderItems(startItems)}</SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        {isSectionEnabled("section_inicio") && (
+          <SidebarGroup>
+            <SidebarGroupLabel>Início</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>{renderItems(startItems)}</SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
 
-        <SidebarGroup>
-          <SidebarGroupLabel>Prospecção</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>{renderItems(prospecaoItems)}</SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        {isSectionEnabled("section_prospeccao") && (
+          <SidebarGroup>
+            <SidebarGroupLabel>Prospecção</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>{renderItems(prospecaoItems)}</SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
 
-        <SidebarGroup>
-          <SidebarGroupLabel>WhatsApp</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>{renderItems(whatsappItems)}</SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        {isSectionEnabled("section_whatsapp") && (
+          <SidebarGroup>
+            <SidebarGroupLabel>WhatsApp</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>{renderItems(whatsappItems)}</SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
 
-        <SidebarGroup>
-          <SidebarGroupLabel>Outros Canais</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>{renderItems(canaisItems)}</SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        {isSectionEnabled("section_canais") && (
+          <SidebarGroup>
+            <SidebarGroupLabel>Outros Canais</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>{renderItems(canaisItems)}</SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
 
-        <SidebarGroup>
-          <SidebarGroupLabel>LinkedIn</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>{renderItems(linkedinItems)}</SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        {isSectionEnabled("section_linkedin") && (
+          <SidebarGroup>
+            <SidebarGroupLabel>LinkedIn</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>{renderItems(linkedinItems)}</SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
 
-        <SidebarGroup>
-          <SidebarGroupLabel>{branding.agent_name} — IA</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>{renderItems(maviItems)}</SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        {isSectionEnabled("section_mavi") && (
+          <SidebarGroup>
+            <SidebarGroupLabel>{branding.agent_name} — IA</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>{renderItems(maviItems)}</SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
 
-        <SidebarGroup>
-          <SidebarGroupLabel>Integrações</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>{renderItems(integrationsItems)}</SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        {isSectionEnabled("section_integracoes") && (
+          <SidebarGroup>
+            <SidebarGroupLabel>Integrações</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>{renderItems(integrationsItems)}</SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
 
         {/* Seção exclusiva WhiteLabel / Admin */}
         {(isAdmin || isReseller) && (
@@ -269,7 +342,7 @@ export function AppSidebar() {
           </SidebarGroup>
         )}
 
-        <SidebarGroup>
+        {isSectionEnabled("section_conta") && (<SidebarGroup>
           <SidebarGroupLabel>Conta</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -297,6 +370,7 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+        )}
 
       </SidebarContent>
 
