@@ -587,8 +587,8 @@ Use estas informações para personalizar a conversa (empresa, segmento, dor pro
 - ${leadFirstName ? `Cumprimente o lead pelo primeiro nome ("${leadFirstName}") logo no início. Exemplo: "oi ${leadFirstName}, tudo bem?"` : `Se você não sabe o nome, use apenas "oi, tudo bem?" — NÃO invente nome.`}
 - PROIBIDO descrever o produto, plataforma, solução, features ou o que a ${companyName} faz — mesmo que o lead tenha só mandado "oi", "boa tarde" ou parecido.
 - PROIBIDO abrir com "a ${companyName} oferece...", "somos...", "trabalhamos com...", "temos uma plataforma...".
-- Faça UMA pergunta curta de contexto pra abrir conversa (ex: "cê chegou pelo anúncio, né?" ou "posso te fazer uma pergunta rápida sobre a operação de vocês?").
-- Máx 2 frases. Tom humano, minúsculas ok.
+- Faça UMA pergunta curta de contexto pra abrir conversa (ex: "você chegou pelo anúncio, né?" ou "posso te fazer uma pergunta rápida sobre a operação de vocês?").
+- Máx 2 frases. Tom humano, minúsculas ok. Use sempre "você" (nunca "cê").
 === FIM ===`
     : (isFirstReply && flowModeSimple && leadFirstName
         ? `\n\n=== PRIMEIRA RESPOSTA — cumprimente pelo primeiro nome "${leadFirstName}" seguindo o roteiro acima. ===`
