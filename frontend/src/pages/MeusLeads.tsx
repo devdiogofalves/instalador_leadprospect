@@ -115,7 +115,7 @@ export default function MeusLeads() {
             .select("*")
             .eq("source", s)
             .order("created_at", { ascending: false })
-            .limit(1500)
+            .limit(5000)
         )
       );
       const all: UnifiedLead[] = [];
@@ -432,7 +432,13 @@ export default function MeusLeads() {
       for (const [src, ids] of Object.entries(bySource)) {
         const tbl = SOURCE_META[src as Source]?.table;
         if (!tbl) continue;
-        await sb.from(tbl).delete().in("id", ids);
+        // Delete in chunks to avoid URL length limits
+        const chunkSize = 100;
+        for (let i = 0; i < ids.length; i += chunkSize) {
+          const chunk = ids.slice(i, i + chunkSize);
+          const { error } = await sb.from(tbl).delete().in("id", chunk);
+          if (error) throw error;
+        }
       }
       toast({ title: `${chosen.length} lead(s) apagado(s)` });
       setSelected(new Set()); setConfirmBulkDelete(false);

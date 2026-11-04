@@ -18,7 +18,7 @@ export function TelegramBotCard() {
   const [saving, setSaving] = useState(false);
   const [chatId, setChatId] = useState("");
   const [text, setText] = useState("Olá! Posso te mostrar como aumentamos resposta de cold outreach?");
-  const [rows, setRows] = useState<Btn[][]>([[{ text: "👍 Tenho interesse", url: "https://leadsbooster.com.br" }, { text: "🙅 Agora não", callback_data: "no" }]]);
+  const [rows, setRows] = useState<Btn[][]>([[{ text: "👍 Tenho interesse", url: "https://leadsprospect.com.br" }, { text: "🙅 Agora não", callback_data: "no" }]]);
   const [sending, setSending] = useState(false);
   const [chats, setChats] = useState<any[]>([]);
   const [loadingChats, setLoadingChats] = useState(false);

@@ -26,11 +26,11 @@ function LegalPage({ title, description, sections }: LegalPageProps) {
             className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
           >
             <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-            Voltar ao LeadsBooster
+            Voltar ao LeadsProspect
           </Link>
           <div className="flex items-center gap-2 text-sm font-semibold">
             <ShieldCheck className="h-5 w-5 text-primary" aria-hidden="true" />
-            LeadsBooster
+            LeadsProspect
           </div>
         </div>
       </header>
@@ -81,7 +81,7 @@ export function PrivacyPolicy() {
   return (
     <LegalPage
       title="Política de Privacidade"
-      description="Esta política explica como a Núcleo da Automação, responsável pela plataforma LeadsBooster, trata dados pessoais e dados das contas conectadas pelos usuários."
+      description="Esta política explica como a Núcleo da Automação, responsável pela plataforma LeadsProspect, trata dados pessoais e dados das contas conectadas pelos usuários."
       sections={[
         {
           title: "1. Dados que tratamos",
@@ -112,7 +112,7 @@ export function PrivacyPolicy() {
         {
           title: "4. Tokens e credenciais",
           paragraphs: [
-            "A senha do Instagram não é armazenada pelo LeadsBooster. A autorização ocorre na interface oficial da Meta e recebemos um token de acesso revogável.",
+            "A senha do Instagram não é armazenada pelo LeadsProspect. A autorização ocorre na interface oficial da Meta e recebemos um token de acesso revogável.",
             "Tokens são armazenados em ambiente protegido e utilizados apenas para executar ações autorizadas pelo titular da conta.",
           ],
         },
@@ -120,7 +120,7 @@ export function PrivacyPolicy() {
           title: "5. Retenção e exclusão",
           paragraphs: [
             "Mantemos dados pelo período necessário à prestação do serviço, ao cumprimento de obrigações legais e à defesa de direitos. O usuário pode desconectar integrações ou solicitar a exclusão de seus dados.",
-            "As instruções estão disponíveis em https://leadsbooster.com.br/exclusao-de-dados.",
+            "As instruções estão disponíveis em https://leadsprospect.com.br/exclusao-de-dados.",
           ],
         },
         {
@@ -144,12 +144,12 @@ export function TermsOfService() {
   return (
     <LegalPage
       title="Termos de Uso"
-      description="Estes termos regulam o acesso e a utilização da plataforma LeadsBooster e de suas integrações."
+      description="Estes termos regulam o acesso e a utilização da plataforma LeadsProspect e de suas integrações."
       sections={[
         {
           title: "1. Aceitação",
           paragraphs: [
-            "Ao criar uma conta ou utilizar o LeadsBooster, o usuário declara que leu e concorda com estes termos e com a Política de Privacidade.",
+            "Ao criar uma conta ou utilizar o LeadsProspect, o usuário declara que leu e concorda com estes termos e com a Política de Privacidade.",
           ],
         },
         {
@@ -161,7 +161,7 @@ export function TermsOfService() {
         },
         {
           title: "3. Uso permitido",
-          paragraphs: ["O LeadsBooster deve ser utilizado de forma lícita e em conformidade com as políticas das plataformas integradas."],
+          paragraphs: ["O LeadsProspect deve ser utilizado de forma lícita e em conformidade com as políticas das plataformas integradas."],
           items: [
             "Não enviar spam, conteúdo ilegal, enganoso ou abusivo.",
             "Não acessar dados ou contas sem autorização.",
@@ -178,7 +178,7 @@ export function TermsOfService() {
         {
           title: "5. Disponibilidade e integrações",
           paragraphs: [
-            "Podemos realizar manutenções e atualizações. Recursos dependentes de terceiros podem sofrer indisponibilidade, alteração de API ou mudança de política fora do controle do LeadsBooster.",
+            "Podemos realizar manutenções e atualizações. Recursos dependentes de terceiros podem sofrer indisponibilidade, alteração de API ou mudança de política fora do controle do LeadsProspect.",
           ],
         },
         {
@@ -200,7 +200,7 @@ export function DataDeletion() {
   return (
     <LegalPage
       title="Exclusão de Dados"
-      description="O usuário pode desconectar o Instagram e solicitar a exclusão dos dados associados à sua conta LeadsBooster."
+      description="O usuário pode desconectar o Instagram e solicitar a exclusão dos dados associados à sua conta LeadsProspect."
       sections={[
         {
           title: "1. Desconectar o Instagram",
@@ -211,7 +211,7 @@ export function DataDeletion() {
         {
           title: "2. Solicitar exclusão completa",
           paragraphs: [
-            `Envie um email para ${CONTACT_EMAIL} com o assunto “Exclusão de dados LeadsBooster”. Use o mesmo endereço de email cadastrado na plataforma e informe o nome de usuário do Instagram conectado.`,
+            `Envie um email para ${CONTACT_EMAIL} com o assunto “Exclusão de dados LeadsProspect”. Use o mesmo endereço de email cadastrado na plataforma e informe o nome de usuário do Instagram conectado.`,
             "Após a validação da titularidade, eliminaremos ou anonimizaremos os dados vinculados, exceto registros que precisem ser mantidos por obrigação legal, prevenção a fraude ou exercício regular de direitos.",
           ],
         },
@@ -225,7 +225,7 @@ export function DataDeletion() {
           title: "4. Dados abrangidos",
           paragraphs: ["A exclusão abrange, conforme aplicável:"],
           items: [
-            "Perfil e configurações da conta LeadsBooster.",
+            "Perfil e configurações da conta LeadsProspect.",
             "Tokens e identificadores das contas sociais conectadas.",
             "Conteúdos, mensagens, comentários e métricas armazenados pela plataforma.",
             "Automações, planejamentos e dados de relacionamento criados pelo usuário.",

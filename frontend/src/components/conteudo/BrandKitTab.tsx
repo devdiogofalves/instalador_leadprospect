@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 import BibliotecaTab from "@/components/conteudo/BibliotecaTab";
 
-const BIO_DOMAIN = "leadsbooster.com.br";
+const BIO_DOMAIN = "leadsprospect.com.br";
 
 export default function BrandKitTab() {
   const qc = useQueryClient();
@@ -251,7 +251,7 @@ export default function BrandKitTab() {
               <div className="grid md:grid-cols-2 gap-3">
                 <div>
                   <Label className="text-xs">Nome da marca</Label>
-                  <Input value={manual.display_name} onChange={(e) => setManual({ ...manual, display_name: e.target.value })} placeholder="Ex.: LeadsBooster" />
+                  <Input value={manual.display_name} onChange={(e) => setManual({ ...manual, display_name: e.target.value })} placeholder="Ex.: LeadsProspect" />
                 </div>
                 <div>
                   <Label className="text-xs">Nicho / segmento</Label>

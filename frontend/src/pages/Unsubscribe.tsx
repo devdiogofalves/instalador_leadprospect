@@ -74,7 +74,7 @@ export default function Unsubscribe() {
             <MailX className="h-12 w-12 mx-auto text-primary" />
             <h1 className="text-2xl font-semibold">Descadastrar e-mails</h1>
             <p className="text-muted-foreground">
-              Tem certeza de que deseja parar de receber e-mails do LeadsBooster?
+              Tem certeza de que deseja parar de receber e-mails do LeadsProspect?
             </p>
             <Button onClick={confirm} className="w-full">
               Confirmar descadastro
@@ -94,7 +94,7 @@ export default function Unsubscribe() {
             <CheckCircle2 className="h-12 w-12 mx-auto text-emerald-500" />
             <h1 className="text-2xl font-semibold">Pronto!</h1>
             <p className="text-muted-foreground">
-              Você não receberá mais e-mails do LeadsBooster.
+              Você não receberá mais e-mails do LeadsProspect.
             </p>
           </>
         )}

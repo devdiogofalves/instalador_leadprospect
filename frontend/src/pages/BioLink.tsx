@@ -118,7 +118,7 @@ export default function BioLink() {
         </div>
 
         <div className="mt-10 text-center text-[10px] opacity-40">
-          powered by LeadsBooster
+          powered by LeadsProspect
         </div>
       </div>
     </div>

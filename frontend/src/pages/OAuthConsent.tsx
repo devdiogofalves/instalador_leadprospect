@@ -129,7 +129,7 @@ export default function OAuthConsent() {
               Conectar {clientName} à sua conta
             </h1>
             <p className="text-xs text-muted-foreground">
-              Este aplicativo poderá usar o LeadsBooster em seu nome.
+              Este aplicativo poderá usar o LeadsProspect em seu nome.
             </p>
           </div>
         </div>

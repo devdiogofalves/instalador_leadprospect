@@ -41,7 +41,7 @@ const VISUAL_STYLES: { value: VisualStyle; label: string; hint: string }[] = [
   { value: "ilustracao", label: "🎨 Ilustração", hint: "modern flat illustration, vector style, bold geometric shapes, limited color palette, editorial illustration like NYT or Stripe blog" },
 ];
 
-const KIE_AFFILIATE = "https://kie.ai?ref=leadsbooster";
+const KIE_AFFILIATE = "https://kie.ai?ref=leadsprospect";
 
 export default function Conteudo() {
   const qc = useQueryClient();

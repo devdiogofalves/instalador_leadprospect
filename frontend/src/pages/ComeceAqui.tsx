@@ -30,11 +30,12 @@ export function useOnboardingSteps() {
   const { data, isLoading } = useQuery({
     queryKey: ["onboarding_status"],
     queryFn: async () => {
-      const [keys, integ, leads, ig, ln, emp, dispatchCfg, qualCfg, brand] = await Promise.all([
+      const [keys, integ, waInstances, leads, ig, ln, emp, dispatchCfg, qualCfg, brand] = await Promise.all([
         supabase.from("user_api_keys").select("provider"),
         supabase.from("user_integrations")
           .select("evolution_instance, mandrack_instance_id, mandrack_instance_token")
           .maybeSingle(),
+        supabase.from("whatsapp_instances").select("id, status").eq("active", true),
         supabase.from("leads").select("id", { count: "exact", head: true }),
         supabase.from("instagram_contacts").select("id", { count: "exact", head: true }),
         supabase.from("linkedin_contacts").select("id", { count: "exact", head: true }),
@@ -47,7 +48,9 @@ export function useOnboardingSteps() {
       const totalLeads =
         (leads.count ?? 0) + (ig.count ?? 0) + (ln.count ?? 0) + (emp.count ?? 0);
       const whatsappConnected =
-        !!integ.data?.mandrack_instance_token || !!integ.data?.evolution_instance;
+        !!integ.data?.mandrack_instance_token ||
+        !!integ.data?.evolution_instance ||
+        (waInstances.data ?? []).some((w: any) => w.status === "open");
       const brandConfigured =
         !!brand.data &&
         brand.data.company_name !== "Minha Empresa" &&
@@ -167,7 +170,7 @@ export default function ComeceAqui() {
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Comece Aqui</h1>
           <p className="text-sm text-muted-foreground">
-            Siga os passos abaixo para configurar o LeadsBooster e começar a captar leads com a {branding.agent_name}.
+            Siga os passos abaixo para configurar o LeadsProspect e começar a captar leads com a {branding.agent_name}.
           </p>
         </div>
       </div>

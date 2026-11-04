@@ -200,7 +200,7 @@ export default function CanaisTab() {
       <PageGuide
         storageKey="guide_canais"
         title="Conectar canais (Unipile + Meta)"
-        what="Aqui você conecta as contas reais que o LeadsBooster vai usar. Unipile cuida de disparo em massa e postagem. Meta cuida da resposta automática de comentários e DMs em tempo real."
+        what="Aqui você conecta as contas reais que o LeadsProspect vai usar. Unipile cuida de disparo em massa e postagem. Meta cuida da resposta automática de comentários e DMs em tempo real."
         steps={[
           { text: "Peça ao admin para ativar sua conta Unipile em Configurações → APIs", route: "/configuracoes" },
           { text: "Clique em Conectar em cada canal desejado (LinkedIn, Gmail, Instagram, Telegram)" },

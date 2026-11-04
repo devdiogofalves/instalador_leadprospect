@@ -86,7 +86,7 @@ export default function GoogleCalendarTab() {
 
           {!connected && (
             <p className="text-xs text-muted-foreground">
-              Ao conectar, você autoriza o LeadsBooster a acessar seu Google Calendar e criar eventos com links do Meet automaticamente.
+              Ao conectar, você autoriza o LeadsProspect a acessar seu Google Calendar e criar eventos com links do Meet automaticamente.
             </p>
           )}
         </CardContent>

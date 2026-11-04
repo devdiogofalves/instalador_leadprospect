@@ -77,8 +77,8 @@ export default function DisparoHumanizado() {
     },
   });
 
-  const [minDelay, setMinDelay] = useState(45);
-  const [maxDelay, setMaxDelay] = useState(180);
+  const [minDelay, setMinDelay] = useState(1); // minutes
+  const [maxDelay, setMaxDelay] = useState(3); // minutes
   const [hourStart, setHourStart] = useState(9);
   const [hourEnd, setHourEnd] = useState(18);
   const [respectHours, setRespectHours] = useState(true);
@@ -90,8 +90,8 @@ export default function DisparoHumanizado() {
 
   useEffect(() => {
     if (!settings) return;
-    setMinDelay(settings.min_delay_seconds);
-    setMaxDelay(settings.max_delay_seconds);
+    setMinDelay(Math.round(settings.min_delay_seconds / 60));
+    setMaxDelay(Math.round(settings.max_delay_seconds / 60));
     setHourStart(settings.business_hour_start);
     setHourEnd(settings.business_hour_end);
     setRespectHours(settings.respect_business_hours);
@@ -107,8 +107,8 @@ export default function DisparoHumanizado() {
     if (!u.user) return;
     const { error } = await supabase.from("dispatch_settings").upsert({
       user_id: u.user.id,
-      min_delay_seconds: minDelay,
-      max_delay_seconds: maxDelay,
+      min_delay_seconds: minDelay * 60,
+      max_delay_seconds: maxDelay * 60,
       business_hour_start: hourStart,
       business_hour_end: hourEnd,
       respect_business_hours: respectHours,
@@ -451,8 +451,19 @@ export default function DisparoHumanizado() {
   const { data: apiKeyProviders } = useQuery({
     queryKey: ["api_keys_dispatch_readiness"],
     queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return new Set();
       const { data } = await supabase.from("user_api_keys").select("provider");
-      return new Set((data ?? []).map((k: any) => k.provider as string));
+      const providers = new Set((data ?? []).map((k: any) => k.provider as string));
+      // Verifica chaves compartilhadas pelo admin
+      const { data: shared } = await supabase
+        .from("admin_shared_apis")
+        .select("provider")
+        .eq("client_id", user.id)
+        .in("provider", ["openai", "gemini", "elevenlabs"])
+        .eq("enabled", true);
+      for (const s of shared ?? []) providers.add(s.provider);
+      return providers;
     },
   });
   const hasIaKey = !!(apiKeyProviders?.has("openai") || apiKeyProviders?.has("gemini"));
@@ -763,11 +774,11 @@ export default function DisparoHumanizado() {
           <CardContent className="space-y-3">
             <div className="grid grid-cols-2 gap-2">
               <div className="space-y-1">
-                <Label className="text-xs">Delay mín (s)</Label>
+                <Label className="text-xs">Delay mín (min)</Label>
                 <Input type="number" value={minDelay} onChange={(e) => setMinDelay(+e.target.value)} />
               </div>
               <div className="space-y-1">
-                <Label className="text-xs">Delay máx (s)</Label>
+                <Label className="text-xs">Delay máx (min)</Label>
                 <Input type="number" value={maxDelay} onChange={(e) => setMaxDelay(+e.target.value)} />
               </div>
               <div className="space-y-1">

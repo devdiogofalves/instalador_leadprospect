@@ -542,7 +542,7 @@ function ReferenceLibrary() {
       <CardContent className="space-y-3">
         <div className="flex flex-col sm:flex-row gap-2">
           <Input
-            placeholder="https://lp.leadsbooster.com.br/"
+            placeholder="https://lp.leadsprospect.com.br/"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             className="flex-1"

@@ -10,6 +10,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "@/hooks/use-toast";
 import logo from "@/assets/logo.png";
+import loginHero from "@/assets/login-hero.png";
 import MatrixRain from "@/components/MatrixRain";
 
 const emailSchema = z.string().trim().email({ message: "E-mail inválido" }).max(255);
@@ -73,8 +74,8 @@ export default function Auth() {
       <Card className="w-full max-w-md relative z-10 border-primary/30 bg-card/80 backdrop-blur-md neon-border">
         <CardHeader className="text-center space-y-3 pb-2">
           <img
-            src={logo}
-            alt="LeadsBooster"
+            src={loginHero}
+            alt="LeadsProspect"
             className="mx-auto h-36 w-auto object-contain animate-pulse-soft drop-shadow-[0_0_35px_hsl(142_100%_50%/0.75)]"
           />
           <CardDescription className="font-mono text-[11px] uppercase tracking-[0.3em] text-primary/80">

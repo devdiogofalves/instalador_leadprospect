@@ -356,7 +356,7 @@ export default function Admin() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold flex items-center gap-2">
-            <ShieldCheck className="h-6 w-6 text-primary" /> Admin LeadsBooster
+            <ShieldCheck className="h-6 w-6 text-primary" /> Admin LeadsProspect
           </h1>
           <p className="text-sm text-muted-foreground">Visão completa de todos os clientes e métricas da plataforma</p>
         </div>
@@ -545,7 +545,7 @@ export default function Admin() {
                                 onClick={() => {
                                   setWaClient(c);
                                   setWaPhone(c.contact_phone ?? "");
-                                  setWaMessage(`Olá! 👋 Bem-vindo(a) à plataforma LeadsBooster!\n\nSeu acesso foi criado:\n📧 E-mail: ${c.email}\n\nAcesse agora: https://leadsbooster.com.br\n\nQualquer dúvida, é só me chamar aqui. 🚀`);
+                                  setWaMessage(`Olá! 👋 Bem-vindo(a) à plataforma LeadsProspect!\n\nSeu acesso foi criado:\n📧 E-mail: ${c.email}\n\nAcesse agora: https://leadsprospect.com.br\n\nQualquer dúvida, é só me chamar aqui. 🚀`);
                                 }}
                               >
                                 <MessageCircle className="h-3 w-3" />
