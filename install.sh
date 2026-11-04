@@ -235,6 +235,11 @@ VALUES ('http://$VPS_IP:8080', '$EVOLUTION_API_KEY')
 ON CONFLICT DO NOTHING;
 " 2>/dev/null || true
 
+# Fix: unique constraint on leads table for upsert
+docker exec supabase-db psql -U postgres -d postgres -c "
+ALTER TABLE public.leads ADD CONSTRAINT leads_telefone_user_id_unique UNIQUE (telefone, user_id);
+" 2>/dev/null || true
+
 # ============================================================================
 # 12. CRIAR INSTÂNCIA WHATSAPP (placeholder)
 # ============================================================================
