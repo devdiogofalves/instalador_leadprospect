@@ -20,6 +20,7 @@ import { FinanceiroTab } from "@/components/admin/FinanceiroTab";
 import { SuporteAdminTab } from "@/components/admin/SuporteAdminTab";
 import { UnipileAccountsTab } from "@/components/admin/UnipileAccountsTab";
 import { EvolutionTab } from "@/components/admin/EvolutionTab";
+import { GoogleOAuthTab } from "@/components/admin/GoogleOAuthTab";
 import { SharedApisPanel } from "@/components/admin/SharedApisPanel";
 import { useAdminSupportUnread } from "@/hooks/useAdminSupportUnread";
 
@@ -408,6 +409,7 @@ export default function Admin() {
           <TabsTrigger value="planos">Planos</TabsTrigger>
           <TabsTrigger value="unipile">Contas Unipile</TabsTrigger>
           <TabsTrigger value="evolution">Evolution (WhatsApp)</TabsTrigger>
+          <TabsTrigger value="google-oauth">Google OAuth</TabsTrigger>
         </TabsList>
 
         <TabsContent value="clients" className="space-y-3 mt-3">
@@ -728,6 +730,9 @@ export default function Admin() {
         </TabsContent>
               <TabsContent value="evolution" className="mt-3">
           <EvolutionTab />
+        </TabsContent>
+        <TabsContent value="google-oauth" className="mt-3">
+          <GoogleOAuthTab />
         </TabsContent>
       </Tabs>
 
